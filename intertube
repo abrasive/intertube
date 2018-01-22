@@ -9,6 +9,7 @@ import os
 import socket
 import argparse
 import binascii
+import subprocess
 
 def main():
     parser = argparse.ArgumentParser()
@@ -16,6 +17,7 @@ def main():
     parser.add_argument('--rport', type=int, default=24601, help='Remote port to connect to')
     parser.add_argument('--key', type=argparse.FileType('r'), help='Secret key file for encryption')
     parser.add_argument('--debug', action='store_true', help='Dump packet I/O')
+    parser.add_argument('--cmd', help='Shell command to execute when link comes up. Environment variable IFACE holds name of interface.')
 
     action = parser.add_mutually_exclusive_group(required=True)
 
@@ -41,6 +43,11 @@ def main():
     tap = tun.mktap()
 
     sp = pipe.SecretPipe(args.lport, args.remote_host, args.rport, key)
+
+    if args.cmd:
+        env = dict(os.environ)
+        env['IFACE'] = tap.iface
+        subprocess.check_call(args.cmd, shell=True, env=env)
 
     while True:
         r, _, _ = select.select([sp, tap], [], [], 10)
