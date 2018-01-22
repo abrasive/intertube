@@ -1,7 +1,6 @@
 import os
 import ctypes
 import fcntl
-from ioctl_opt import IOR, IOC, IOW
 import socket
 import atexit
 import sys
@@ -19,7 +18,7 @@ class ifreq(ctypes.Structure):
     ]
 
 class LinuxTAP(object):
-    TUNSETIFF = IOW(ord('T'), 202, ctypes.c_int)
+    TUNSETIFF = 0x400454CA
     IFF_TAP = 0x0002
     IFF_NO_PI = 0x1000
     SIOCSIFMTU = 0x8922
