@@ -82,7 +82,7 @@ def main():
             sp.send(pkt)
 
             if args.debug:
-                print '>', binascii.hexlify(pkt)
+                print '<', binascii.hexlify(pkt)
 
         if len(r) == 0:
             # keep hole punch alive
