@@ -60,8 +60,6 @@ class BSDTAP(object):
     def __init__(self, mtu):
         self.fd = os.open('/dev/tap', os.O_RDWR)
 
-        print self.fd
-
         ifr = ifreq()
         fcntl.ioctl(self.fd, self.TAPGIFNAME, ifr)
         self.iface = ifr.ifr_name
