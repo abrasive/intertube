@@ -26,24 +26,3 @@ class SecretPipe(object):
 
     def fileno(self):
         return self.sock.fileno()
-
-if __name__ == "__main__":
-    import select
-    key = SecretPipe.make_key()
-    print repr(key)
-    key = "scoo"*8
-
-    import sys
-    localport = int(sys.argv[1])
-    remotehost = sys.argv[2]
-    remoteport = int(sys.argv[3])
-
-    pipe = SecretPipe(localport, remotehost, remoteport, key)
-
-    while True:
-        r, w, x = select.select([pipe.sock], [], [], 10)
-
-        if pipe.sock in r:
-            print repr(pipe.recv())
-        else:
-            pipe.send("")

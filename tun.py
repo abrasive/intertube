@@ -102,9 +102,3 @@ def mktap(mtu=1280):
         return LinuxTAP(mtu)
     else:
         return BSDTAP(mtu)
-
-if __name__ == "__main__":
-    tap = mktap()
-    print tap.iface
-    import time
-    time.sleep(30)
