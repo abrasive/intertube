@@ -20,7 +20,8 @@ class ifreq(ctypes.Structure):
 class TAP(object):
     def set_mtu_up(self, ifr, mtu):
         ifr.payload.ifr_mtu = mtu
-        s = socket.socket(self.CTL_AF, socket.SOCK_RAW)
+        ctl_af = getattr(socket, self.CTL_AF)
+        s = socket.socket(ctl_af, socket.SOCK_RAW)
         fcntl.ioctl(s, self.SIOCSIFMTU, ifr)
         fcntl.ioctl(s, self.SIOCGIFFLAGS, ifr)
         ifr.payload.ifr_flags |= self.IFF_UP
@@ -44,7 +45,7 @@ class LinuxTAP(TAP):
     SIOCSIFFLAGS = 0x8914
     SIOCGIFFLAGS = 0x8913
     IFF_UP = 1
-    CTL_AF = socket.AF_PACKET
+    CTL_AF = 'AF_PACKET'
 
     def __init__(self, mtu):
         self.fd = os.open('/dev/net/tun', os.O_RDWR)
@@ -66,7 +67,7 @@ class BSDTAP(TAP):
     SIOCGIFFLAGS = 0xc0206911
     SIOCSIFMTU = 0x80206934
     IFF_UP = 1
-    CTL_AF = socket.AF_INET
+    CTL_AF = 'AF_INET'
 
     def __init__(self, mtu):
         self.fd = os.open('/dev/tap', os.O_RDWR)
