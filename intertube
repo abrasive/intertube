@@ -13,12 +13,12 @@ import subprocess
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--lport', type=int, default=24601, help='Local port to listen on')
-    parser.add_argument('--rport', type=int, default=24601, help='Remote port to connect to')
-    parser.add_argument('--key', type=argparse.FileType('r'), help='Secret key file for encryption')
-    parser.add_argument('--debug', action='store_true', help='Dump packet I/O')
-    parser.add_argument('--cmd', help='Shell command to execute when link comes up. Environment variable IFACE holds name of interface.')
-    parser.add_argument('--compress', action='store_true', help='Enable data compression (requires python-lzo)')
+    parser.add_argument('--lport', '-l', type=int, default=24601, help='Local port to listen on')
+    parser.add_argument('--rport', '-r', type=int, default=24601, help='Remote port to connect to')
+    parser.add_argument('--key', '-k', type=argparse.FileType('r'), help='Secret key file for encryption')
+    parser.add_argument('--debug', '-d', action='store_true', help='Dump packet I/O')
+    parser.add_argument('--cmd', '-c', help='Shell command to execute when link comes up. Environment variable IFACE holds name of interface.')
+    parser.add_argument('--compress', '-z', action='store_true', help='Enable data compression (requires python-lzo)')
 
     action = parser.add_mutually_exclusive_group(required=True)
 
