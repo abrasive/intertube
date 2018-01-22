@@ -66,9 +66,7 @@ def main():
                 continue
 
             if args.compress:
-                print len(pkt),
                 pkt = decompress(pkt)
-                print len(pkt)
 
             tap.write(pkt)
 
@@ -79,9 +77,7 @@ def main():
             pkt = tap.read()
 
             if args.compress:
-                print len(pkt),
                 pkt = compress(pkt)
-                print len(pkt)
 
             sp.send(pkt)
 
