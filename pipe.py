@@ -11,11 +11,15 @@ class SecretPipe(object):
 
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.sock.bind(("0.0.0.0", lport))
-        self.sock.connect((rhost, rport))
+        self.peer = (rhost, rport)
+        self.sock.connect(self.peer)
 
     def send(self, data):
         crypted = self.box.encrypt(data)
-        self.sock.send(crypted)
+        try:
+            self.sock.send(crypted)
+        except socket.error:
+            self.sock.connect(self.peer)
 
     def recv(self):
         try:
@@ -23,6 +27,8 @@ class SecretPipe(object):
         except (nacl.exceptions.ValueError, nacl.exceptions.CryptoError):
             print "Bad packet received (wrong key?)"
             return
+        except socket.error:
+            self.sock.connect(self.peer)
 
     def fileno(self):
         return self.sock.fileno()

@@ -56,10 +56,7 @@ def main():
         r, _, _ = select.select([sp, tap], [], [], 10)
 
         if sp in r:
-            try:
-                pkt = sp.recv()
-            except socket.error:    # got ICMP Unreachable
-                continue
+            pkt = sp.recv()
 
             if not (pkt and len(pkt)):
                 continue
