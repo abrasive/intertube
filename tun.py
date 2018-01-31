@@ -89,7 +89,7 @@ class BSDTAP(TAP):
         fcntl.ioctl(s, self.SIOCIFDESTROY, ifr)
         s.close()
 
-def mktap(mtu=1280):
+def mktap(mtu):
     if sys.platform.startswith('linux'):
         return LinuxTAP(mtu)
     else:
