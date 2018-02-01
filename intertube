@@ -10,7 +10,7 @@ import socket
 import argparse
 import binascii
 import subprocess
-import frag
+from frag import fragment
 
 def main():
     parser = argparse.ArgumentParser()
@@ -79,10 +79,10 @@ def main():
             else:
                 frags = [pkt]
 
-            for frag in frags:
+            for pkt in frags:
                 if args.compress:
-                    frag = compress(frag)
-                sp.send(frag)
+                    pkt = compress(pkt)
+                sp.send(pkt)
 
             if args.debug:
                 print '<', binascii.hexlify(pkt)
