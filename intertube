@@ -75,7 +75,7 @@ def main():
             pkt = tap.read()
 
             if len(pkt) > args.mtu:
-                frags = frag.fragment(pkt)
+                frags = fragment(pkt)
             else:
                 frags = [pkt]
 
